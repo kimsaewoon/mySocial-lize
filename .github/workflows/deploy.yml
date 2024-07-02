@@ -51,6 +51,6 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           application_name: socialize # 엘라스틱빈스톡 이름
           environment_name: socialize-env # 환경 이름
-          version_label: ${{ github.run_number }} # 현재 날짜 설정 이것도 Github 환경변수
+          version_label: ${{ github.run_number || '1.0' }} # 현재 날짜 설정 이것도 Github 환경변수
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip # 압축 파일이 deploy 안에 있으니
