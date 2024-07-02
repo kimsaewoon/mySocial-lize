@@ -2,13 +2,13 @@ name: socialize
 on:
   push:
     branches:
-      - master
+      - master # 메인이 되는 브랜치명
 
 # https://github.com/actions/setup-java
 # actions/setup-java@v2는 사용자 정의 배포를 지원하고 Zulu OpenJDK, Eclipse Temurin 및 Adopt OpenJDK를 기본적으로 지원합니다. v1은 Zulu OpenJDK만 지원합니다.
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # ubuntu 설치
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,7 +23,35 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build -x test
+        run: ./gradlew clean build
 
+      # /home/runner/work/spring-blog-v2-step12/spring-blog-v2-step12/deploy 생성
+      # cp build/libs/*.jar deploy/application.jar (복사하면서 명령어로 이름을 바꾼다)
+      # cp Procfile deploy/Procfile (실행 시 prod 로 실행 되도록 하는 명령을 넣은 파일을 복사한다)
+      # cp -r .ebextensions deploy/.ebextensions (숨김 파일을 생성한다)
+      # cd deploy && zip -r deploy.zip . (복사한 데이터를 모두(.) 압축한다)
+      - name: deploy packaging
+        run: |
+          mkdir deploy
+          cp build/libs/*.jar deploy/application.jar
+          cp -r upload deploy/upload
+          cp -r images deploy/images
+          cp Procfile deploy/Procfile
+          cp -r .ebextensions deploy/.ebextensions
+          cd deploy && zip -r deploy.zip .
+
+      # 눈으로 체크
       - name: list
-        run: li
+        run: ls
+
+      # AWS 배포 시 필요
+      - name: Deploy tp EB
+        uses: einaregilsson/beanstalk-deploy@v22
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }} # AWS에 로그인 해서 KEY 두 개를 받아온다. {{}} 를 2개 쓰면 Github의 환경변수를 가져오는 것이다.
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: socialize # 엘라스틱빈스톡 이름
+          environment_name: socialize-env # 환경 이름
+          version_label: ${{ github.run_number }} # 현재 날짜 설정 이것도 Github 환경변수
+          region: ap-northeast-2
+          deployment_package: deploy/deploy.zip # 압축 파일이 deploy 안에 있으니
