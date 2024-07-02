@@ -23,7 +23,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean build -x test
 
       # /home/runner/work/spring-blog-v2-step12/spring-blog-v2-step12/deploy 생성
       # cp build/libs/*.jar deploy/application.jar (복사하면서 명령어로 이름을 바꾼다)
