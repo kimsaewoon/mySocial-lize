@@ -23,11 +23,7 @@ spring:
   h2:
     console:
       enabled: true
-#  data:
-#    redis:
-#      host: 127.0.0.1
-#      port: 6379
-#      password:
+
   jpa:
     hibernate:
       ddl-auto: none
@@ -44,3 +40,8 @@ spring:
     media-types:
       hls:
         - application/vnd.apple.mpegurl
+  data:
+    redis:
+      host: socializeredis-xvp0fd.serverless.apn2.cache.amazonaws.com
+      port: 6379
+      password:
