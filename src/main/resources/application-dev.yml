@@ -24,7 +24,7 @@ spring:
       enabled: true
   data:
     redis:
-      host: socializeredis-xvp0fd.serverless.apn2.cache.amazonaws.com
+      host: localhost
       port: 6379
       password:
   sql:
