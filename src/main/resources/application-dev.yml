@@ -24,7 +24,7 @@ spring:
       enabled: true
   data:
     redis:
-      host: 127.0.0.1
+      host: socializeredis-xvp0fd.serverless.apn2.cache.amazonaws.com
       port: 6379
       password:
   sql:
@@ -39,7 +39,7 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 10
-    defer-datasource-initialization: true
+    defer-datasource-initialization: false
 
   # m3u8 을 비디오 타입으로 하기위해 추가
   http:
