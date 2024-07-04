@@ -43,6 +43,6 @@ spring:
   data:
     redis:
       host: clustercfg.socializetest2.xvp0fd.apn2.cache.amazonaws.com
-#      host: clustercfg.socializeredis2.xvp0fd.apn2.cache.amazonaws.com
+      #      host: clustercfg.socializeredis2.xvp0fd.apn2.cache.amazonaws.com
       port: 6379
       password:
